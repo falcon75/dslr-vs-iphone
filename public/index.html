@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link href="output.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
+</head>
+
+<body>
+    <h1 class="text-blue-800">Home</h1>
+    <div class="container mx-auto">
+        <div class="grid grid-cols-2">
+            <p id="p1"></p>
+            <p id="p2"></p>
+            <img src="../lens/dslr.jpeg" id="img1">
+            <img src="../lens/iphone.jpeg">
+            <img src="../lens/crop/dslr.jpeg">
+            <img src="../lens/crop/iphone.jpeg">
+        </div>
+    </div>
+</body>
+
+<script>
+    window.onload = getExif;
+    function getExif() {
+        var img1 = document.getElementById("img1");
+        EXIF.getData(img1, function () {
+            var MetaData = EXIF.getAllTags(this);
+            console.log(JSON.stringify(MetaData, null, "\t"));
+            const p1 = document.getElementById('p1');
+            p1.textContent = MetaData.PixelXDimension + " x " + MetaData.PixelYDimension;
+        });
+    }
+</script>
+
+</html>
