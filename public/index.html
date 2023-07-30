@@ -4,28 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>DSLR vs iPhone</title>
     <link href="output.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
 </head>
 
 <body>
     <div class="container mx-auto">
-        <h1 class="text-3xl justify-self-start m-20">How do iPhone and DSLR Photos Compare?</h1>
-        <div class="grid grid-cols-1 justify-items-center 2xl:grid-cols-2 ">
-            <div class="flex">
-                <div class="flex flex-col">
-                    <div class="rounded-xl bg-gray-100 p-3 m-3" id="stats1"></div>
-                    <img class="max-w-sm aspect-square p-3" src="../lens/crop/dslr.jpeg">
-                </div>
-                <img class="max-w-sm p-3" src="../lens/dslr.jpeg" id="img1">
+        <h1 class="text-3xl justify-self-start m-5">How do iPhone and DSLR Photos Compare?</h1>
+        <div class="grid grid-cols-1 2xl:grid-cols-2 gap-10 justify-items-center m-2">
+            <div class="grid grid-cols-2 gap-5 max-w-3xl">
+                <div class="rounded-xl col-span-2 sm:col-span-1 bg-gray-100 p-3 my-auto" id="stats1"></div>
+                <img class="object-scale-down sm:row-span-2" src="../lens/dslr.jpeg" id="img1">
+                <img class="object-scale-down my-auto" src="../lens/crop/dslr.jpeg">
             </div>
-            <div class="flex">
-                <div class="flex flex-col">
-                    <div class="rounded-xl bg-gray-100 p-3 m-3" id="stats2"></div>
-                    <img class="max-w-sm aspect-square p-3" src="../lens/crop/iphone.jpeg">
-                </div>
-                <img class="max-w-sm p-3" src="../lens/iphone.jpeg" id="img2">
+            <div class="grid grid-cols-2 gap-5 max-w-3xl">
+                <div class="rounded-xl col-span-2 sm:col-span-1 bg-gray-100 p-3 my-auto" id="stats2"></div>
+                <img class="object-scale-down sm:row-span-2" src="../lens/iphone.jpeg" id="img2">
+                <img class="object-scale-down my-auto" src="../lens/crop/iphone.jpeg">
             </div>
         </div>
     </div>
@@ -52,7 +48,7 @@
                     </div>
                     <div class="bg-gray-200 h-0.5 rounded mx-2 m-2"></div>
                     <div class="flex">
-                        <p class="text-slate-500 ml-auto mr-2">${i == 1 ? MetaData.FocalLength * 1.6 : MetaData.FocalLengthIn35mmFilm} mm</p>
+                        <p class="text-slate-500 mx-auto">${i == 1 ? MetaData.FocalLength * 1.6 : MetaData.FocalLengthIn35mmFilm} mm</p>
                         <div class="w-0.5 bg-gray-200"></div>
                         <p class="text-slate-500 mx-auto"> 1 / ${roundToSignificantFigures(1000 * 1/MetaData.ShutterSpeedValue, 2)} s</p>
                         <div class="w-0.5 bg-gray-200"></div>

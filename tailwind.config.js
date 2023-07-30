@@ -3,7 +3,11 @@
 module.exports = {
   content: ["./public/*.html"],
   theme: {
-    extend: {},
+    extend: {
+      // screens: {
+      //   'xs': '540px', // min-width
+      // },
+    },
   },
   plugins: [],
 }
