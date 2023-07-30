@@ -1,12 +1,21 @@
 #!/bin/bash
 
 # Function to crop "iphone.jpeg"
-crop_iphone() {
-    local image_name="iphone.jpeg"
+crop_iphone_raw() {
+    local image_name="iphone_raw.jpeg"
     local crop_size="850x850"
 
     echo "Cropping $image_name..."
     mogrify -path crop -gravity center -crop ${crop_size}+-240+-60 +repage "$image_name"
+    echo "Cropped $image_name with size ${crop_size} and saved as crop/$image_name"
+}
+
+crop_iphone() {
+    local image_name="iphone.jpeg"
+    local crop_size="900x900"
+
+    echo "Cropping $image_name..."
+    mogrify -path crop -gravity center -crop ${crop_size}+-350+-80 +repage "$image_name"
     echo "Cropped $image_name with size ${crop_size} and saved as crop/$image_name"
 }
 
@@ -36,6 +45,12 @@ if [ -f "iphone.jpeg" ]; then
     crop_iphone
 else
     echo "Error: iphone.jpeg not found in the current directory."
+fi
+
+if [ -f "iphone_raw.jpeg" ]; then
+    crop_iphone_raw
+else
+    echo "Error: iphone_raw.jpeg not found in the current directory."
 fi
 
 if [ -f "dslr.jpeg" ]; then

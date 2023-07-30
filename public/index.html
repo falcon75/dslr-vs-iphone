@@ -3,35 +3,66 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link href="output.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
 </head>
 
 <body>
-    <h1 class="text-blue-800">Home</h1>
     <div class="container mx-auto">
-        <div class="grid grid-cols-2">
-            <p id="p1"></p>
-            <p id="p2"></p>
-            <img src="../lens/dslr.jpeg" id="img1">
-            <img src="../lens/iphone.jpeg">
-            <img src="../lens/crop/dslr.jpeg">
-            <img src="../lens/crop/iphone.jpeg">
+        <h1 class="text-3xl justify-self-start m-20">How do iPhone and DSLR Photos Compare?</h1>
+        <div class="grid grid-cols-1 justify-items-center 2xl:grid-cols-2 ">
+            <div class="flex">
+                <div class="flex flex-col">
+                    <div class="rounded-xl bg-gray-100 p-3 m-3" id="stats1"></div>
+                    <img class="max-w-sm aspect-square p-3" src="../lens/crop/dslr.jpeg">
+                </div>
+                <img class="max-w-sm p-3" src="../lens/dslr.jpeg" id="img1">
+            </div>
+            <div class="flex">
+                <div class="flex flex-col">
+                    <div class="rounded-xl bg-gray-100 p-3 m-3" id="stats2"></div>
+                    <img class="max-w-sm aspect-square p-3" src="../lens/crop/iphone.jpeg">
+                </div>
+                <img class="max-w-sm p-3" src="../lens/iphone.jpeg" id="img2">
+            </div>
         </div>
     </div>
 </body>
 
 <script>
     window.onload = getExif;
+    function roundToSignificantFigures(value, significantFigures) {
+        if (value === 0) return 0;
+        const multiplier = 10 ** (significantFigures - Math.floor(Math.log10(Math.abs(value))) - 1);
+        return Math.round(value * multiplier) / multiplier;
+    }
     function getExif() {
-        var img1 = document.getElementById("img1");
-        EXIF.getData(img1, function () {
-            var MetaData = EXIF.getAllTags(this);
-            console.log(JSON.stringify(MetaData, null, "\t"));
-            const p1 = document.getElementById('p1');
-            p1.textContent = MetaData.PixelXDimension + " x " + MetaData.PixelYDimension;
-        });
+        for (let i = 1; i <= 2; i++) {
+            var img = document.getElementById("img" + i);
+            EXIF.getData(img, function () {
+                var MetaData = EXIF.getAllTags(this);
+                console.log(JSON.stringify(MetaData, null, "\t"));
+                const div = document.getElementById('stats' + i);
+                div.innerHTML =  `
+                    <div class="flex">
+                        <p class="text-slate-600 font-bold mx-4">${MetaData.Model}</p>
+                        <p class="text-slate-500 ml-auto mr-4">${i == 1 ? "Sigma 30mm f / 1.4" : "2x Zoom Lens"}</p>
+                    </div>
+                    <div class="bg-gray-200 h-0.5 rounded mx-2 m-2"></div>
+                    <div class="flex">
+                        <p class="text-slate-500 ml-auto mr-2">${i == 1 ? MetaData.FocalLength * 1.6 : MetaData.FocalLengthIn35mmFilm} mm</p>
+                        <div class="w-0.5 bg-gray-200"></div>
+                        <p class="text-slate-500 mx-auto"> 1 / ${roundToSignificantFigures(1000 * 1/MetaData.ShutterSpeedValue, 2)} s</p>
+                        <div class="w-0.5 bg-gray-200"></div>
+                        <p class="text-slate-500 mx-auto">f / ${MetaData.FNumber}</p>
+                        <div class="w-0.5 bg-gray-200"></div>
+                        <p class="text-slate-500 mx-auto">ISO ${MetaData.ISOSpeedRatings}</p>
+                    </div>
+                `;
+            });
+        }
     }
 </script>
 
